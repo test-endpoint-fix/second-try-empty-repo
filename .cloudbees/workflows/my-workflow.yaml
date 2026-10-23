@@ -18,8 +18,8 @@ jobs:
         uses: docker://golang:1.20.3-alpine3.17
         shell: sh
         run: |
-          echo "hello world "
-      - name: Get version
+          echo "hello world " && sleep 70
+      - name: Step after timeout
         uses: docker://golang:1.20.3-alpine3.17
         shell: sh
         run: |
