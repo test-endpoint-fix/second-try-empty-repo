@@ -12,7 +12,7 @@ jobs:
   build:
     steps:
       - name: Get source Code
-        uses: cloudbees-io/checkout@v1alpha1
+        uses: cloudbees-io/checkout@v1
 
       - id: build
         name: Build using the shared action
