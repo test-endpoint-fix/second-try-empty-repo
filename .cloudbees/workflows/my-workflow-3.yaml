@@ -14,9 +14,11 @@ jobs:
       - name: Get source Code
         uses: cloudbees-io/checkout@v1
 
+      - name: Setup git credentials
+        uses: cloudbees-io/configure-git-global-credentials@v1  
+
       - id: build
         name: Build using the shared action
-        if: ${{ vars.workflow_execution_env == 'production' }}
         uses: calculi-corp/cb-internal-shared-actions/build@v9
         with:
           run-unit-test: "true"
