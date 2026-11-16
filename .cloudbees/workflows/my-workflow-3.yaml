@@ -11,14 +11,17 @@ on:
 jobs:
   build:
     steps:
-      - name: Say hello
-        # note: uses is only supported when running in container based execution mode
-        uses: docker://golang:1.20.3-alpine3.17
-        shell: sh
-        run: |
-          echo "hello world "
-      - name: second job
-        uses: docker://golang:1.20.3-alpine3.17
-        shell: sh
-        run: |
-          echo "second hello"
+      - name: Get source Code
+        uses: cloudbees-io/checkout@v1alpha1
+
+      - id: build
+        name: Build using the shared action
+        if: ${{ vars.workflow_execution_env == 'production' }}
+        uses: calculi-corp/cb-internal-shared-actions/build@v9
+        with:
+          run-unit-test: "true"
+          snyk-sast-scan-code: "true"
+          go-binary-build: "true"
+          go-binary-name: my-go-app
+
+
