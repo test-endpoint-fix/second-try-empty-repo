@@ -1,6 +1,6 @@
 apiVersion: automation.cloudbees.io/v1alpha1
 kind: workflow
-name: My workflow
+name: Go build
 
 on:
   push:
@@ -11,19 +11,30 @@ on:
 
 jobs:
   build:
+    runs-on: [jany-label-3]
     steps:
       - name: Get source Code
-        uses: cloudbees-io/checkout@v1  
+        uses: cloudbees-io/checkout@v1
 
       - id: build
         name: Build
         uses: docker://golang:1.27.3
+        shell: sh
         run: |
           go build -v ./...
 
       - name: Run tests
         uses: docker://golang:1.27.3
+        shell: sh
         run: |
           go test -v ./...
 
-
+  deploy-prod:
+    runs-on: [jany-label-3]
+    needs: [build]
+    steps:
+      - name: Say hello
+        uses: docker://golang:1.27.3
+        shell: sh
+        run: |
+          echo "deploying to prod (dummy job)"
