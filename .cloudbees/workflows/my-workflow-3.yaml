@@ -12,18 +12,17 @@ jobs:
   build:
     steps:
       - name: Get source Code
-        uses: cloudbees-io/checkout@v1
-
-      - name: Setup git credentials
-        uses: cloudbees-io/configure-git-global-credentials@v1  
+        uses: cloudbees-io/checkout@v1  
 
       - id: build
-        name: Build using the shared action
-        uses: calculi-corp/cb-internal-shared-actions/build@v9
-        with:
-          run-unit-test: "true"
-          snyk-sast-scan-code: "true"
-          go-binary-build: "true"
-          go-binary-name: my-go-app
+        name: Build
+        uses: docker://golang:1.24
+        run: |
+          go build -v ./...
+
+      - name: Run tests
+        uses: docker://golang:1.24
+        run: |
+          go test -v ./...
 
 
